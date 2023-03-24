@@ -1,8 +1,11 @@
 package com.santog.wizards.data
 
-import com.santog.wizards.data.states.LoadExternalCharacterResult
+import com.santog.wizards.data.model.CharacterExternalDataModel
 
 interface WizardDataAPI {
     @Suppress("TooGenericExceptionCaught")
-    suspend fun loadCharacters(): LoadExternalCharacterResult
+    suspend fun loadCharacters(): List<CharacterExternalDataModel>
+
+    @Suppress("TooGenericExceptionCaught")
+    suspend fun loadCharacter(name: String): CharacterExternalDataModel?
 }

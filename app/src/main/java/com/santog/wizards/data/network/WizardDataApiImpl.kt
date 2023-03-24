@@ -4,9 +4,6 @@ import com.santog.wizards.data.WizardDataAPI
 import com.santog.wizards.data.model.CharacterExternalDataModel
 import com.santog.wizards.data.model.Wand
 import com.santog.wizards.data.network.dto.CharacterDTO
-import com.santog.wizards.data.states.LoadExternalCharacterError.*
-import com.santog.wizards.data.states.LoadExternalCharacterResult
-import com.santog.wizards.data.states.LoadExternalCharacterResult.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,27 +26,32 @@ class WizardDataApiImpl : WizardDataAPI {
     }
 
     @Suppress("TooGenericExceptionCaught")
-    override suspend fun loadCharacters(): LoadExternalCharacterResult {
+    override suspend fun loadCharacters(): List<CharacterExternalDataModel> {
         try {
             val charactersList = service.loadCharacters()
             val characters = charactersList.characters.mapNotNull {
                 it.toExternalDataModel()
             }
             return if (characters.isEmpty()) {
-                Failure(NoExternalCharacterFound)
+                emptyList()
             } else {
-                Success(characters)
+                characters
             }
         } catch (e: IOException) {
-            Timber.e(e, "IO Exception on LoadCharacter raised")
-            return Failure(NoInternet)
+            Timber.e(e, "IO Exception on LoadCharacters raised")
+            return emptyList()
         } catch (e: SocketTimeoutException) {
-            Timber.e(e, "Socket Timeout Exception on LoadCharacter raised")
-            return Failure(SlowInternet)
+            Timber.e(e, "Socket Timeout Exception on LoadCharacters raised")
+            return emptyList()
         } catch (e: Exception) {
-            Timber.e(e, "Generic Exception on LoadCharacter raised")
-            return Failure(ServerError)
+            Timber.e(e, "Generic Exception on LoadCharacters raised")
+            return emptyList()
         }
+    }
+
+    override suspend fun loadCharacter(name: String): CharacterExternalDataModel? {
+        // TODO NOT NEEDED FOR NETWORK CALL - ONLY FOR DB CACHING ACTIVITIES !!!
+        return null
     }
 
     private fun CharacterDTO.CharacterDTOItem.toExternalDataModel(): CharacterExternalDataModel? {

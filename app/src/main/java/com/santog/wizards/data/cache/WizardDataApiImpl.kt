@@ -7,37 +7,55 @@ import com.santog.wizards.data.cache.dao.AppDatabase
 import com.santog.wizards.data.cache.entities.CharacterEntity
 import com.santog.wizards.data.model.CharacterExternalDataModel
 import com.santog.wizards.data.model.Wand
-import com.santog.wizards.data.states.LoadExternalCharacterError.*
-import com.santog.wizards.data.states.LoadExternalCharacterResult
-import com.santog.wizards.data.states.LoadExternalCharacterResult.Failure
-import com.santog.wizards.data.states.LoadExternalCharacterResult.Success
 import timber.log.Timber
 import java.io.IOException
 
 class WizardDataApiImpl : WizardDataAPI {
-
     private val db: AppDatabase = Room
         .databaseBuilder(getApplicationContext(), AppDatabase::class.java, "wizards")
         .build()
     private val characterDao = db.characterDao()
 
-    override suspend fun loadCharacters(): LoadExternalCharacterResult {
+    override suspend fun loadCharacters(): List<CharacterExternalDataModel> {
         try {
             val charactersList = characterDao.getAll()
             val characters = charactersList.mapNotNull {
                 it.toExternalDataModel()
             }
             return if (characters.isEmpty()) {
-                Failure(NoExternalCharacterFound)
+                emptyList()
             } else {
-                Success(characters)
+                characters
+            }
+        } catch (e: IOException) {
+            Timber.e(e, "IO Exception on LoadCharacters raised")
+            return emptyList()
+        } catch (e: Exception) {
+            Timber.e(e, "Generic Exception on LoadCharacters raised")
+            return emptyList()
+        }
+    }
+
+    override suspend fun loadCharacter(name: String): CharacterExternalDataModel? {
+        try {
+            val characterEntity = characterDao.findByName(name)
+            return if (characterEntity == null) {
+                null
+            } else {
+                val characterExternalData = characterEntity.toExternalDataModel()
+                if (characterExternalData == null) {
+                    Timber.e(Throwable("Invalid character name"))
+                    null
+                } else {
+                    characterExternalData
+                }
             }
         } catch (e: IOException) {
             Timber.e(e, "IO Exception on LoadCharacter raised")
-            return Failure(DbError)
+            return null
         } catch (e: Exception) {
             Timber.e(e, "Generic Exception on LoadCharacter raised")
-            return Failure(DbError)
+            return null
         }
     }
 
