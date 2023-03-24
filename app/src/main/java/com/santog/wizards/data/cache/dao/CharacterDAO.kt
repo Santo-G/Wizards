@@ -1,9 +1,10 @@
-package com.santog.wizards.data.cache
+package com.santog.wizards.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.santog.wizards.data.cache.entities.CharacterEntity
 import com.santog.wizards.domain.model.Character
 
 @Dao

@@ -1,4 +1,4 @@
-package com.santog.wizards.data.cache
+package com.santog.wizards.data.cache.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

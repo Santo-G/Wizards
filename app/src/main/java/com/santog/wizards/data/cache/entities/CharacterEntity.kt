@@ -1,8 +1,8 @@
-package com.santog.wizards.data.cache
+package com.santog.wizards.data.cache.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.santog.wizards.data.network.Wand
+import com.santog.wizards.data.network.dto.Wand
 
 
 @Entity
