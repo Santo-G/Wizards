@@ -1,35 +1,24 @@
-package com.santog.wizards.data.network
+package com.santog.wizards.data.cache
 
-import com.santog.wizards.data.WizardDataAPI
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import com.santog.wizards.data.cache.dao.AppDatabase
+import com.santog.wizards.data.cache.entities.CharacterEntity
 import com.santog.wizards.data.model.CharacterExternalDataModel
 import com.santog.wizards.data.model.Wand
-import com.santog.wizards.data.network.dto.CharacterDTO
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.io.IOException
-import java.net.SocketTimeoutException
 
-class WizardDataApiImpl : WizardDataAPI {
-    private val service: WizardService
+class WizardCacheDataApiImpl : WizardCacheDataAPI {
+    private val db: AppDatabase = Room
+        .databaseBuilder(getApplicationContext(), AppDatabase::class.java, "wizards")
+        .build()
+    private val characterDao = db.characterDao()
 
-    init {
-        val client = OkHttpClient.Builder()
-            .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://hp-api.onrender.com/api/characters")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-        service = retrofit.create(WizardService::class.java)
-    }
-
-    @Suppress("TooGenericExceptionCaught")
     override suspend fun loadCharacters(): List<CharacterExternalDataModel> {
         try {
-            val charactersList = service.loadCharacters()
-            val characters = charactersList.characters.mapNotNull {
+            val charactersList = characterDao.getAll()
+            val characters = charactersList.mapNotNull {
                 it.toExternalDataModel()
             }
             return if (characters.isEmpty()) {
@@ -40,9 +29,6 @@ class WizardDataApiImpl : WizardDataAPI {
         } catch (e: IOException) {
             Timber.e(e, "IO Exception on LoadCharacters raised")
             return emptyList()
-        } catch (e: SocketTimeoutException) {
-            Timber.e(e, "Socket Timeout Exception on LoadCharacters raised")
-            return emptyList()
         } catch (e: Exception) {
             Timber.e(e, "Generic Exception on LoadCharacters raised")
             return emptyList()
@@ -50,11 +36,29 @@ class WizardDataApiImpl : WizardDataAPI {
     }
 
     override suspend fun loadCharacter(name: String): CharacterExternalDataModel? {
-        // TODO NOT NEEDED FOR NETWORK CALL - ONLY FOR DB CACHING ACTIVITIES !!!
-        return null
+        try {
+            val characterEntity = characterDao.findByName(name)
+            return if (characterEntity == null) {
+                null
+            } else {
+                val characterExternalData = characterEntity.toExternalDataModel()
+                if (characterExternalData == null) {
+                    Timber.e(Throwable("Invalid character name"))
+                    null
+                } else {
+                    characterExternalData
+                }
+            }
+        } catch (e: IOException) {
+            Timber.e(e, "IO Exception on LoadCharacter raised")
+            return null
+        } catch (e: Exception) {
+            Timber.e(e, "Generic Exception on LoadCharacter raised")
+            return null
+        }
     }
 
-    private fun CharacterDTO.CharacterDTOItem.toExternalDataModel(): CharacterExternalDataModel? {
+    private fun CharacterEntity.toExternalDataModel(): CharacterExternalDataModel? {
         val id = id
         return if (id != null) {
             CharacterExternalDataModel(
@@ -84,11 +88,11 @@ class WizardDataApiImpl : WizardDataAPI {
         }
     }
 
-    private fun mapWandField(characterDtoItem: CharacterDTO.CharacterDTOItem): Wand {
+    private fun mapWandField(characterEntity: CharacterEntity): Wand {
         return Wand(
-            core = characterDtoItem.wand.core,
-            length = characterDtoItem.wand.length,
-            wood = characterDtoItem.wand.wood
+            core = characterEntity.wand.core,
+            length = characterEntity.wand.length,
+            wood = characterEntity.wand.wood
         )
     }
 
