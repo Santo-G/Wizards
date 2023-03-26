@@ -2,7 +2,6 @@ package com.santog.wizards.data.cache.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.santog.wizards.data.network.dto.Wand
 
 
 @Entity
@@ -24,8 +23,10 @@ data class CharacterEntity(
     val image: String,
     val patronus: String,
     val species: String,
-    val wand: Wand,
+    val wandEntity: WandEntity,
     val wizard: Boolean,
     val yearOfBirth: Int
 )
+
+
 

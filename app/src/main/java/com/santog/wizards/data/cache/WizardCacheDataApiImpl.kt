@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.santog.wizards.data.cache.dao.AppDatabase
 import com.santog.wizards.data.cache.entities.CharacterEntity
+import com.santog.wizards.data.cache.entities.WandEntity
 import com.santog.wizards.data.model.CharacterExternalDataModel
 import com.santog.wizards.data.model.Wand
 import timber.log.Timber
@@ -21,10 +22,8 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
             val characters = charactersList.mapNotNull {
                 it.toExternalDataModel()
             }
-            return if (characters.isEmpty()) {
+            return characters.ifEmpty {
                 emptyList()
-            } else {
-                characters
             }
         } catch (e: IOException) {
             Timber.e(e, "IO Exception on LoadCharacters raised")
@@ -55,6 +54,29 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
         } catch (e: Exception) {
             Timber.e(e, "Generic Exception on LoadCharacter raised")
             return null
+        }
+    }
+
+    override suspend fun updateData(charactersList: List<CharacterExternalDataModel>): Boolean {
+        val characters = charactersList.mapNotNull {
+            it.toEntityModel()
+        }
+        return try {
+            characterDao.insertAll(characters)
+            Timber.d("Successfully Db updated")
+            true
+        } catch (e: Exception) {
+            Timber.e(e, "Database Exception on updateData raised")
+            false
+        }
+    }
+
+    override suspend fun clearTable() {
+        try {
+            characterDao.clearTable()
+            Timber.d("Successfully clear table executed")
+        } catch (e: Exception) {
+            Timber.e(e, "Database Exception on clearTable raised")
         }
     }
 
@@ -90,9 +112,46 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
 
     private fun mapWandField(characterEntity: CharacterEntity): Wand {
         return Wand(
-            core = characterEntity.wand.core,
-            length = characterEntity.wand.length,
-            wood = characterEntity.wand.wood
+            core = characterEntity.wandEntity.core,
+            length = characterEntity.wandEntity.length,
+            wood = characterEntity.wandEntity.wood
+        )
+    }
+
+    private fun CharacterExternalDataModel.toEntityModel(): CharacterEntity? {
+        val id = id
+        return if (id != null) {
+            CharacterEntity(
+                id = id,
+                name = name,
+                actor = actor,
+                alive = alive,
+                alternateActors = alternateActors,
+                alternateNames = alternateNames,
+                ancestry = ancestry,
+                dateOfBirth = dateOfBirth,
+                eyeColour = eyeColour,
+                gender = gender,
+                hairColour = hairColour,
+                hogwartsStaff = hogwartsStaff,
+                hogwartsStudent = hogwartsStudent,
+                house = house,
+                image = image,
+                patronus = patronus,
+                species = species,
+                wandEntity = mapWandField(this),
+                wizard = wizard,
+                yearOfBirth = yearOfBirth
+            )
+        } else {
+            null
+        }
+    }
+    private fun mapWandField(characterExternalDataModel: CharacterExternalDataModel): WandEntity {
+        return WandEntity(
+            core = characterExternalDataModel.wand.core,
+            length = characterExternalDataModel.wand.length,
+            wood = characterExternalDataModel.wand.wood
         )
     }
 

@@ -8,4 +8,10 @@ interface WizardCacheDataAPI {
 
     @Suppress("TooGenericExceptionCaught")
     suspend fun loadCharacter(name: String): CharacterExternalDataModel?
+
+    @Suppress("TooGenericExceptionCaught")
+    suspend fun updateData(characters: List<CharacterExternalDataModel>): Boolean
+
+    @Suppress("TooGenericExceptionCaught")
+    suspend fun clearTable()
 }

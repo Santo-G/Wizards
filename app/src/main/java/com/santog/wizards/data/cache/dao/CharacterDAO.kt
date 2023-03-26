@@ -19,8 +19,11 @@ interface CharacterDAO {
     suspend fun findByName(first: String): CharacterEntity
 
     @Insert
-    suspend fun insertAll(vararg characters: Character)
+    suspend fun insertAll(vararg characters: List<CharacterEntity>)
 
     @Delete
     suspend fun delete(character: Character)
+
+    @Query("DELETE FROM character")
+    suspend fun clearTable()
 }
