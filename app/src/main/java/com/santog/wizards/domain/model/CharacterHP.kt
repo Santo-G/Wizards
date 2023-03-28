@@ -1,9 +1,6 @@
-package com.santog.wizards.data.model
+package com.santog.wizards.domain.model
 
-/**
- * External data layer representation of an "HP" Character
- */
-data class CharacterExternalDataModel(
+data class CharacterHP(
     val id: String,
     val name: String?,
     val actor: String?,
@@ -24,7 +21,7 @@ data class CharacterExternalDataModel(
     val wand: Wand?,
     val wizard: Boolean?,
     val yearOfBirth: Int?
-)
+    )
 
 data class Wand(
     val core: String?,

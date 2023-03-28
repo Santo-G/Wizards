@@ -5,4 +5,5 @@ sealed class LoadCharacterError {
     object NoInternet : LoadCharacterError()
     object SlowInternet : LoadCharacterError()
     object ServerError : LoadCharacterError()
+    object DbError : LoadCharacterError()
 }
