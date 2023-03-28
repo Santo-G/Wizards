@@ -1,148 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView android:id="@+id/cv_detail_item"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/hp_background_image">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_detail_item"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/cl_detail_item_inner">
+        android:layout_height="wrap_content"
+        tools:visibility="visibile"
+        android:padding="12dp"
+        android:layout_margin="18dp"
+        app:cardCornerRadius="12dp"
+        android:elevation="8dp"
+        app:cardBackgroundColor="#740001">
 
-        <TextView
-            android:id="@+id/tv_detail_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cl_detail_item_inner">
 
-        <ImageView
-            android:id="@+id/iv_detail_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_detail_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:background="#99141414" />
 
-        <TextView
-            android:id="@+id/tv_detail_wizard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_detail_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_detail_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_detail_name"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                tools:src="@drawable/character_placeholder_image" />
 
-        <TextView
-            android:id="@+id/tv_detail_actor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_wizard"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/ll_detail_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@id/iv_detail_image"
+                app:layout_constraintTop_toTopOf="@id/iv_detail_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingBottom="12dp">
 
-        <TextView
-            android:id="@+id/tv_detail_alive"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_actor"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_wizard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_ancestry"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_alive"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_actor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_birth"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_ancestry"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_alive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_eye_colour"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_birth"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_ancestry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_gender"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_eye_colour"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_hair_colour"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_gender"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_eye_colour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_hogwarts_staff"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_hair_colour"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_hogwarts_student"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_hogwarts_staff"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_hair_colour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_house"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_hogwarts_student"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_hogwarts_staff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_patronus"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_house"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_hogwarts_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_species"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_patronus"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_house"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_detail_year_birth"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_species"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_detail_patronus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_detail_species"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
-</androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tv_detail_year_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
 
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</ScrollView>

@@ -1,4 +1,4 @@
-package com.santog.wizards.presentation.view
+package com.santog.wizards.presentation.view.students
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.santog.wizards.databinding.FragmentStudentsBinding
+import com.santog.wizards.presentation.viewmodel.HomeScreenActions
 import com.santog.wizards.presentation.viewmodel.HomeScreenEvents
 import com.santog.wizards.presentation.viewmodel.HomeScreenStates
 import com.santog.wizards.presentation.viewmodel.HomeViewModel
@@ -20,7 +21,9 @@ class StudentsFragment : Fragment() {
     private val binding get() = _binding!!
     private val studentsAdapter by lazy {
         StudentsAdapter(context = requireContext()) { character_id ->
-            val action = StudentsFragmentDirections.actionStudentsFragmentToDetailFragment(character_id)
+            val action = StudentsFragmentDirections.actionStudentsFragmentToDetailFragment(
+                    character_id
+                )
             findNavController().navigate(action)
         }
     }
@@ -43,9 +46,9 @@ class StudentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvRecyclerView.adapter = studentsAdapter
-        // TODO send character id to fetch character data for detail screen
         viewModel.send(HomeScreenEvents.OnReady)
         observeState()
+        observeActions()
     }
 
     private fun observeState() {
@@ -62,6 +65,20 @@ class StudentsFragment : Fragment() {
                         binding.rvRecyclerView.visibility = View.VISIBLE
                         studentsAdapter.setCharactersList(results)
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeActions() {
+        viewModel.actions.observe(viewLifecycleOwner) { action ->
+            Timber.d(action.toString())
+            when (action) {
+                is HomeScreenActions.NavigateToDetail -> {
+                    val directions = StudentsFragmentDirections.actionStudentsFragmentToDetailFragment(
+                            action.characterId
+                        )
+                    findNavController().navigate(directions)
                 }
             }
         }

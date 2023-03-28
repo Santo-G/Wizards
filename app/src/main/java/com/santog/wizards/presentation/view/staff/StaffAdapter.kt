@@ -1,4 +1,4 @@
-package com.santog.wizards.presentation.view
+package com.santog.wizards.presentation.view.staff
 
 import android.content.Context
 import android.view.LayoutInflater

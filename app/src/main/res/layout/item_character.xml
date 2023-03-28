@@ -44,7 +44,7 @@
             android:padding="8dp"
             android:layout_width="100dp"
             android:layout_height="0dp"
-            tools:src="@mipmap/ic_launcher" />
+            tools:src="@drawable/character_placeholder_image" />
 
         <LinearLayout
             android:id="@+id/ll_character_item"

@@ -1,4 +1,4 @@
-package com.santog.wizards.presentation.view
+package com.santog.wizards.presentation.view.students
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.santog.wizards.R
 import com.santog.wizards.databinding.ItemCharacterBinding
-import com.santog.wizards.domain.model.CharacterHP
 import com.santog.wizards.presentation.viewmodel.StudentsUI
 
 class StudentsAdapter(

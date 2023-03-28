@@ -4,48 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.view.HomeFragment"
+    tools:context=".presentation.view.home.HomeFragment"
     android:background="@drawable/hp_home_background_image">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bt_hogwarts_staff"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="12dp"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Choose your favorite category" />
-
-    <Button
-        android:id="@+id/bt_hogwarts_staff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bt_hogwarts_students"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:textSize="14sp"
-        android:text="hogwarts staff"
-        android:backgroundTint="#740001"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Button
-        android:id="@+id/bt_hogwarts_students"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_hogwarts_staff"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:textSize="15sp"
-        android:text="hogwarts students"
-        android:backgroundTint="#740001"/>
+        <Button
+            android:id="@+id/bt_hogwarts_staff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bt_hogwarts_students"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="50dp"
+            android:text="hogwarts staff"
+            android:backgroundTint="#740001"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/bt_hogwarts_students"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_hogwarts_staff"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textSize="15sp"
+            android:layout_marginTop="50dp"
+            android:text="hogwarts students"
+            android:backgroundTint="#740001"
+            android:textColor="#FFFFFF" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

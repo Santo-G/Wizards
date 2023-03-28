@@ -2,6 +2,7 @@ package com.santog.wizards.di
 
 import com.santog.wizards.data.WizardRepositoryImpl
 import com.santog.wizards.domain.WizardRepository
+import com.santog.wizards.presentation.viewmodel.DetailViewModel
 import com.santog.wizards.presentation.viewmodel.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -13,5 +14,6 @@ val appModule = module {
     }
 
     viewModel { HomeViewModel(wizardRepository = get()) }
+    viewModel { DetailViewModel(wizardRepository = get()) }
 
 }
