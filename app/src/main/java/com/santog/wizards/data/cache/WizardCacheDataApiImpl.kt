@@ -1,20 +1,14 @@
 package com.santog.wizards.data.cache
 
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.santog.wizards.data.cache.dao.AppDatabase
 import com.santog.wizards.data.cache.entities.CharacterEntity
-import com.santog.wizards.data.cache.entities.WandEntity
 import com.santog.wizards.data.model.CharacterExternalDataModel
-import com.santog.wizards.data.model.Wand
-import timber.log.Timber
-import java.io.IOException
 
-class WizardCacheDataApiImpl : WizardCacheDataAPI {
-    private val db: AppDatabase = Room
-        .databaseBuilder(getApplicationContext(), AppDatabase::class.java, "wizards")
-        .build()
+class WizardCacheDataApiImpl(
+    val db : AppDatabase
+) : WizardCacheDataAPI {
     private val characterDao = db.characterDao()
+/*
 
     override suspend fun loadCharacters(): List<CharacterExternalDataModel> {
         try {
@@ -49,10 +43,10 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
                 }
             }
         } catch (e: IOException) {
-            Timber.e(e, "IO Exception on LoadCharacter raised")
+            Timber.e(e, "IO Exception on loadCharacter in WizardCacheDataApiImpl raised")
             return null
         } catch (e: Exception) {
-            Timber.e(e, "Generic Exception on LoadCharacter raised")
+            Timber.e(e, "Generic Exception on loadCharacter in WizardCacheDataApiImpl raised")
             return null
         }
     }
@@ -88,8 +82,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
                 name = name,
                 actor = actor,
                 alive = alive,
-                alternateActors = alternateActors,
-                alternateNames = alternateNames,
                 ancestry = ancestry,
                 dateOfBirth = dateOfBirth,
                 eyeColour = eyeColour,
@@ -101,7 +93,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
                 image = image,
                 patronus = patronus,
                 species = species,
-                wand = mapWandField(this),
                 wizard = wizard,
                 yearOfBirth = yearOfBirth
             )
@@ -110,13 +101,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
         }
     }
 
-    private fun mapWandField(characterEntity: CharacterEntity): Wand {
-        return Wand(
-            core = characterEntity.wandEntity.core,
-            length = characterEntity.wandEntity.length,
-            wood = characterEntity.wandEntity.wood
-        )
-    }
 
     private fun CharacterExternalDataModel.toEntityModel(): CharacterEntity? {
         val id = id
@@ -126,8 +110,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
                 name = name,
                 actor = actor,
                 alive = alive,
-                alternateActors = alternateActors,
-                alternateNames = alternateNames,
                 ancestry = ancestry,
                 dateOfBirth = dateOfBirth,
                 eyeColour = eyeColour,
@@ -139,7 +121,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
                 image = image,
                 patronus = patronus,
                 species = species,
-                wandEntity = mapWandField(this),
                 wizard = wizard,
                 yearOfBirth = yearOfBirth
             )
@@ -147,12 +128,6 @@ class WizardCacheDataApiImpl : WizardCacheDataAPI {
             null
         }
     }
-    private fun mapWandField(characterExternalDataModel: CharacterExternalDataModel): WandEntity {
-        return WandEntity(
-            core = characterExternalDataModel.wand.core,
-            length = characterExternalDataModel.wand.length,
-            wood = characterExternalDataModel.wand.wood
-        )
-    }
+*/
 
 }

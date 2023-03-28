@@ -10,8 +10,6 @@ data class CharacterEntity(
     val name: String,
     val actor: String,
     val alive: Boolean,
-    val alternateActors: List<String>,
-    val alternateNames: List<String>,
     val ancestry: String,
     val dateOfBirth: String,
     val eyeColour: String,
@@ -23,7 +21,6 @@ data class CharacterEntity(
     val image: String,
     val patronus: String,
     val species: String,
-    val wandEntity: WandEntity,
     val wizard: Boolean,
     val yearOfBirth: Int
 )
