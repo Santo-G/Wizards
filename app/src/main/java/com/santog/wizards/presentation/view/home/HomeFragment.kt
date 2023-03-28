@@ -1,4 +1,4 @@
-package com.santog.wizards.presentation.view
+package com.santog.wizards.presentation.view.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,7 +29,8 @@ class HomeFragment : Fragment() {
         }
         val buttonStudents = binding.btHogwartsStudents
         buttonStudents.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToStudentsFragment()
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToStudentsFragment()
             findNavController().navigate(action)
         }
         return view

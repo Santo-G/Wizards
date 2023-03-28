@@ -1,4 +1,4 @@
-package com.santog.wizards.presentation.view
+package com.santog.wizards.presentation.view.staff
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.santog.wizards.databinding.FragmentStaffBinding
 import com.santog.wizards.presentation.viewmodel.HomeScreenEvents
@@ -21,7 +20,10 @@ class StaffFragment : Fragment() {
     private val binding get() = _binding!!
     private val staffAdapter by lazy {
         StaffAdapter(context = requireContext()) { character_id ->
-            val action = StaffFragmentDirections.actionStaffFragmentToDetailFragment(character_id)
+            val action =
+                StaffFragmentDirections.actionStaffFragmentToDetailFragment(
+                    character_id
+                )
             findNavController().navigate(action)
         }
     }
