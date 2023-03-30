@@ -3,12 +3,13 @@ package com.santog.wizards.data.cache
 import com.santog.wizards.data.cache.dao.AppDatabase
 import com.santog.wizards.data.cache.entities.CharacterEntity
 import com.santog.wizards.data.model.CharacterExternalDataModel
+import timber.log.Timber
+import java.io.IOException
 
 class WizardCacheDataApiImpl(
     val db : AppDatabase
 ) : WizardCacheDataAPI {
     private val characterDao = db.characterDao()
-/*
 
     override suspend fun loadCharacters(): List<CharacterExternalDataModel> {
         try {
@@ -17,6 +18,7 @@ class WizardCacheDataApiImpl(
                 it.toExternalDataModel()
             }
             return characters.ifEmpty {
+                Timber.d("Retrieved empty characters list from db!")
                 emptyList()
             }
         } catch (e: IOException) {
@@ -56,7 +58,9 @@ class WizardCacheDataApiImpl(
             it.toEntityModel()
         }
         return try {
-            characterDao.insertAll(characters)
+            characters.map { character ->
+                characterDao.insert(character)
+            }
             Timber.d("Successfully Db updated")
             true
         } catch (e: Exception) {
@@ -72,6 +76,22 @@ class WizardCacheDataApiImpl(
         } catch (e: Exception) {
             Timber.e(e, "Database Exception on clearTable raised")
         }
+    }
+
+    override suspend fun insert(character: CharacterExternalDataModel): Boolean {
+        val character = character.toEntityModel()
+        try {
+            if (character != null) {
+                characterDao.insert(character)
+                Timber.d("Successfully Db entity inserted")
+                return true
+            } else {
+                Timber.d("Db entity not inserted correctly. Something went wrong!")
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Database Exception on updateData raised")
+        }
+        return false
     }
 
     private fun CharacterEntity.toExternalDataModel(): CharacterExternalDataModel? {
@@ -107,27 +127,26 @@ class WizardCacheDataApiImpl(
         return if (id != null) {
             CharacterEntity(
                 id = id,
-                name = name,
-                actor = actor,
-                alive = alive,
-                ancestry = ancestry,
-                dateOfBirth = dateOfBirth,
-                eyeColour = eyeColour,
-                gender = gender,
-                hairColour = hairColour,
-                hogwartsStaff = hogwartsStaff,
-                hogwartsStudent = hogwartsStudent,
-                house = house,
-                image = image,
-                patronus = patronus,
-                species = species,
-                wizard = wizard,
-                yearOfBirth = yearOfBirth
+                name = name ?: "emptyName",
+                actor = actor  ?: "emptyActor",
+                alive = alive ?: false,
+                ancestry = ancestry ?: "emptyAncestry",
+                dateOfBirth = dateOfBirth ?: "emptyDateBirth",
+                eyeColour = eyeColour ?: "emptyEyeColour",
+                gender = gender ?: "emptyGender",
+                hairColour = hairColour ?: "emptyHairColour",
+                hogwartsStaff = hogwartsStaff ?: if (hogwartsStudent == true) false else true,
+                hogwartsStudent = hogwartsStudent ?: if (hogwartsStaff == true) false else true,
+                house = house ?: "emptyHouse",
+                image = image ?: "",
+                patronus = patronus ?: "emptyPatronus",
+                species = species ?: "emptySpecies",
+                wizard = wizard ?: false,
+                yearOfBirth = yearOfBirth  ?: 0
             )
         } else {
             null
         }
     }
-*/
 
 }

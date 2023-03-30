@@ -5,8 +5,6 @@ data class CharacterHP(
     val name: String?,
     val actor: String?,
     val alive: Boolean?,
-    val alternateActors: List<String>?,
-    val alternateNames: List<String>?,
     val ancestry: String?,
     val dateOfBirth: String?,
     val eyeColour: String?,
@@ -18,13 +16,7 @@ data class CharacterHP(
     val image: String?,
     val patronus: String?,
     val species: String?,
-    val wand: Wand?,
     val wizard: Boolean?,
     val yearOfBirth: Int?
     )
 
-data class Wand(
-    val core: String?,
-    val length: Double?,
-    val wood: String?
-)
