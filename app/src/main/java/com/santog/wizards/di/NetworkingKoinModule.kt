@@ -9,31 +9,35 @@ import com.santog.wizards.data.cache.dao.AppDatabase
 import com.santog.wizards.data.cache.dao.CharacterDAO
 import com.santog.wizards.data.network.WizardNetworkDataAPI
 import com.santog.wizards.data.network.WizardNetworkDataApiImpl
+import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val networkingKoinModule = module {
 
-    single<WizardNetworkDataAPI> {
-        WizardNetworkDataApiImpl()
-    }
-
-    single<WizardCacheDataAPI> {
-        WizardCacheDataApiImpl(db = get())
-    }
-
-    single {
-        Room
-            .databaseBuilder(
-                ApplicationProvider.getApplicationContext(),
-                AppDatabase::class.java,
-                "wizards"
-            )
-            .build()
+    single<AppDatabase> {
+        Room.databaseBuilder(
+            androidApplication(),
+            AppDatabase::class.java,
+            "wizards"
+        ).build()
     }
 
     single<CharacterDAO> {
         val database = get<AppDatabase>()
         database.characterDao()
     }
+
+    single<WizardNetworkDataAPI> {
+        WizardNetworkDataApiImpl()
+    }
+
+    single<WizardCacheDataAPI> {
+        WizardCacheDataApiImpl(get())
+    }
+
+/*    single{
+        get<AppDatabase>().characterDao()
+    }*/
 
 }

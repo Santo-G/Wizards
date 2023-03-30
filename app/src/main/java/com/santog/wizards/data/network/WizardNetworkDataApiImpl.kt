@@ -1,7 +1,6 @@
 package com.santog.wizards.data.network
 
 import com.santog.wizards.data.model.CharacterExternalDataModel
-import com.santog.wizards.data.model.Wand
 import com.santog.wizards.data.network.dto.CharacterDTOItem
 import com.santog.wizards.data.network.service.WizardService
 import okhttp3.OkHttpClient
@@ -67,8 +66,6 @@ class WizardNetworkDataApiImpl : WizardNetworkDataAPI {
                 name = name,
                 actor = actor,
                 alive = alive,
-                alternateActors = alternateActors,
-                alternateNames = alternateNames,
                 ancestry = ancestry,
                 dateOfBirth = dateOfBirth,
                 eyeColour = eyeColour,
@@ -80,21 +77,12 @@ class WizardNetworkDataApiImpl : WizardNetworkDataAPI {
                 image = image,
                 patronus = patronus,
                 species = species,
-                wand = mapWandField(this),
                 wizard = wizard ?: false,
                 yearOfBirth = yearOfBirth
             )
         } else {
             null
         }
-    }
-
-    private fun mapWandField(characterDtoItem: CharacterDTOItem): Wand {
-        return Wand(
-            core = characterDtoItem.wand?.core,
-            length = characterDtoItem.wand?.length,
-            wood = characterDtoItem.wand?.wood
-        )
     }
 
 }
