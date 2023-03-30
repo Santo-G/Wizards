@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.santog.wizards.domain.WizardRepository
 import com.santog.wizards.domain.states.LoadCharacterError
 import com.santog.wizards.domain.states.LoadCharacterResult
+import com.santog.wizards.domain.states.LoadSearchCharacterResult
 import com.santog.wizards.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,6 +22,9 @@ class DetailViewModel(
         when (event) {
             is DetailScreenEvents.OnReady -> {
                 loadContent(event.characterId)
+            }
+            is DetailScreenEvents.OnCharacterSearch -> {
+                loadSearchContent(event.characterSearchName)
             }
         }
     }
@@ -66,7 +70,54 @@ class DetailViewModel(
         }
     }
 
+    private fun loadSearchContent(characterSearchName: String) {
+        states.postValue(DetailScreenStates.Loading)
+        viewModelScope.launch {
+            val result = wizardRepository.loadCharacter(characterSearchName)
+            when (result) {
+                is LoadSearchCharacterResult.Success -> {
+                    val character = result.character
+                            val detailCharacter = DetailCharacterUI(
+                                id = character.id,
+                                name = character.name,
+                                actor = character.actor,
+                                alive = character.alive,
+                                ancestry = character.ancestry,
+                                dateOfBirth = character.dateOfBirth,
+                                eyeColour = character.eyeColour,
+                                gender = character.gender,
+                                hairColour = character.hairColour,
+                                hogwartsStaff = character.hogwartsStaff,
+                                hogwartsStudent = character.hogwartsStudent,
+                                house = character.house,
+                                image = character.image,
+                                patronus = character.patronus,
+                                species = character.species,
+                                wizard = character.wizard,
+                                yearOfBirth = character.yearOfBirth
+                            )
+                    val detailContent = DetailContent(detailCharacter)
+                    states.postValue(DetailScreenStates.Content(detailContent))
+                }
+
+                is LoadSearchCharacterResult.Failure -> onFailure(result)
+                else -> { /* DO NOOP */
+                }
+            }
+        }
+    }
+
     private fun onFailure(result: LoadCharacterResult.Failure) {
+        when (result.error) {
+            LoadCharacterError.NoCharacterFound -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowNoCharacterFound))
+            LoadCharacterError.NoInternet -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowNoInternetMessage))
+            LoadCharacterError.ServerError -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowServerDetailError))
+            LoadCharacterError.DbError -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowDbDetailError))
+            LoadCharacterError.SlowInternet -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowSlowInternet))
+        }
+    }
+
+    private fun onFailure(result: LoadSearchCharacterResult.Failure) {
         when (result.error) {
             LoadCharacterError.NoCharacterFound -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowNoCharacterFound))
             LoadCharacterError.NoInternet -> states.postValue(DetailScreenStates.Error(DetailErrorStates.ShowNoInternetMessage))
@@ -85,6 +136,7 @@ sealed class DetailScreenStates {
 
 sealed class DetailScreenEvents {
     data class OnReady(val characterId: String) : DetailScreenEvents()
+    data class OnCharacterSearch(val characterSearchName: String) : DetailScreenEvents()
 }
 
 sealed class DetailScreenActions {

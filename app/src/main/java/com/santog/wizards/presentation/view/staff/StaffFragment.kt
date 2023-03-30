@@ -22,7 +22,7 @@ class StaffFragment : Fragment() {
         StaffAdapter(context = requireContext()) { character_id ->
             val action =
                 StaffFragmentDirections.actionStaffFragmentToDetailFragment(
-                    character_id
+                    character_id, null
                 )
             findNavController().navigate(action)
         }

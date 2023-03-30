@@ -7,6 +7,7 @@ import com.santog.wizards.domain.WizardRepository
 import com.santog.wizards.domain.model.CharacterHP
 import com.santog.wizards.domain.states.LoadCharacterError
 import com.santog.wizards.domain.states.LoadCharacterResult
+import com.santog.wizards.domain.states.LoadSearchCharacterResult
 import com.santog.wizards.utils.WizardsSharedPreferences
 import timber.log.Timber
 import java.util.*
@@ -21,6 +22,7 @@ class WizardRepositoryImpl(
 ) : WizardRepository {
 
     private lateinit var state: LoadCharacterResult
+    private lateinit var searchState: LoadSearchCharacterResult
 
     companion object {
         private const val CHARACTERS_CACHE_TIME: Long = 1000 * 60 * 60 * 12     // 6 hours
@@ -74,14 +76,21 @@ class WizardRepositoryImpl(
     }
 
 
-    override suspend fun loadCharacter(name: String): LoadCharacterResult {
-        return LoadCharacterResult.Failure(LoadCharacterError.ServerError)
+    override suspend fun loadCharacter(name: String): LoadSearchCharacterResult {
+        Timber.d("LoadCharacter invocation in WizardRepositoryImpl.")
+        val characterFromDb = wizardCache.loadCharacter(name)
+        if (characterFromDb == null) {
+            searchState = LoadSearchCharacterResult.Failure(LoadCharacterError.NoCharacterFound)
+        } else if (characterFromDb != null) {
+            searchState = LoadSearchCharacterResult.Success(characterFromDb.toDomain())
+        } else {
+            searchState = LoadSearchCharacterResult.Failure(LoadCharacterError.DbError)
+        }
+        return searchState
     }
 
-    private fun CharacterExternalDataModel.toDomain(): CharacterHP? {
-        val id = id
-        return if (id != null) {
-            CharacterHP(
+    private fun CharacterExternalDataModel.toDomain(): CharacterHP {
+        return CharacterHP(
                 id = id,
                 name = name,
                 actor = actor,
@@ -100,9 +109,6 @@ class WizardRepositoryImpl(
                 wizard = wizard,
                 yearOfBirth = yearOfBirth
             )
-        } else {
-            null
-        }
     }
 
     private fun CharacterHP.toExternalDataModel(): CharacterExternalDataModel {
