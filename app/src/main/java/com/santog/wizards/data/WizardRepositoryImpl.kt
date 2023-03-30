@@ -67,21 +67,6 @@ class WizardRepositoryImpl(
         return state
     }
 
-    /*    private fun getCharacters(): Flow<List<CharacterExternalDataModel>> {
-            var response: List<CharacterExternalDataModel>
-            return channelFlow<List<CharacterExternalDataModel>> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    response = wizardNetwork.loadCharacters()
-                    if (response.isNullOrEmpty()) {
-                        // send(emptyList<CharacterExternalDataModel>())
-                    } else {
-                        val characters = response
-                        send(characters)
-                    }
-                }
-            }
-        }*/
-
     private suspend fun getCharacters(): List<CharacterExternalDataModel> {
         var response: List<CharacterExternalDataModel> = emptyList()
         response = wizardNetwork.loadCharacters()
