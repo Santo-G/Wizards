@@ -22,7 +22,7 @@ class StudentsFragment : Fragment() {
     private val studentsAdapter by lazy {
         StudentsAdapter(context = requireContext()) { character_id ->
             val action = StudentsFragmentDirections.actionStudentsFragmentToDetailFragment(
-                    character_id
+                    character_id, null
                 )
             findNavController().navigate(action)
         }
@@ -76,7 +76,7 @@ class StudentsFragment : Fragment() {
             when (action) {
                 is HomeScreenActions.NavigateToDetail -> {
                     val directions = StudentsFragmentDirections.actionStudentsFragmentToDetailFragment(
-                            action.characterId
+                            action.characterId, null
                         )
                     findNavController().navigate(directions)
                 }

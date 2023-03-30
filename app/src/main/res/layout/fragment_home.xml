@@ -41,6 +41,19 @@
             android:backgroundTint="#740001"
             android:textColor="#FFFFFF" />
 
+        <Button
+            android:id="@+id/bt_search_character"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_hogwarts_students"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:textSize="15sp"
+            android:layout_marginTop="50dp"
+            android:text="search character"
+            android:backgroundTint="#740001"
+            android:textColor="#FFFFFF" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

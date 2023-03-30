@@ -36,7 +36,12 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val characterId = args.characterId
-        viewModel.send(DetailScreenEvents.OnReady(characterId))
+        val characterSearchName = args.characterSearchName
+        if (!characterId.isNullOrBlank()) {
+            viewModel.send(DetailScreenEvents.OnReady(characterId))
+        } else if (!characterSearchName.isNullOrBlank()) {
+            viewModel.send(DetailScreenEvents.OnCharacterSearch(characterSearchName))
+        }
         observeState()
     }
 
@@ -44,7 +49,7 @@ class DetailFragment : Fragment() {
         viewModel.states.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DetailScreenStates.Loading -> { /* DO NOOP */ }
-                is DetailScreenStates.Error -> { /* DO NOOP */ }
+                is DetailScreenStates.Error -> { Toast.makeText(context, "No Character Found", Toast.LENGTH_LONG).show() }
                 is DetailScreenStates.Content -> {
                     val character = state.detailContent.character
                     if(character == null) {
