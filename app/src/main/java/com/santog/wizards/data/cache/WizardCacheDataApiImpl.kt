@@ -7,7 +7,7 @@ import timber.log.Timber
 import java.io.IOException
 
 class WizardCacheDataApiImpl(
-    val db : AppDatabase
+    private val db : AppDatabase
 ) : WizardCacheDataAPI {
     private val characterDao = db.characterDao()
 
