@@ -7,6 +7,7 @@ import com.santog.wizards.domain.WizardRepository
 import com.santog.wizards.domain.states.LoadCharacterError
 import com.santog.wizards.domain.states.LoadCharacterResult
 import com.santog.wizards.domain.states.LoadSearchCharacterResult
+import com.santog.wizards.utils.EspressoCountingIdlingResource
 import com.santog.wizards.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -32,6 +33,7 @@ class DetailViewModel(
     private fun loadContent(characterId: String) {
         states.postValue(DetailScreenStates.Loading)
         viewModelScope.launch {
+            EspressoCountingIdlingResource.increment()
             val result = wizardRepository.loadCharacters()
             when (result) {
                 is LoadCharacterResult.Success -> {
@@ -61,6 +63,7 @@ class DetailViewModel(
 
                     val detailContent = DetailContent(character.first())
                     states.postValue(DetailScreenStates.Content(detailContent))
+                    EspressoCountingIdlingResource.decrement()
                 }
 
                 is LoadCharacterResult.Failure -> onFailure(result)
@@ -73,6 +76,7 @@ class DetailViewModel(
     private fun loadSearchContent(characterSearchName: String) {
         states.postValue(DetailScreenStates.Loading)
         viewModelScope.launch {
+            EspressoCountingIdlingResource.increment()
             val result = wizardRepository.loadCharacter(characterSearchName)
             when (result) {
                 is LoadSearchCharacterResult.Success -> {
@@ -98,6 +102,7 @@ class DetailViewModel(
                             )
                     val detailContent = DetailContent(detailCharacter)
                     states.postValue(DetailScreenStates.Content(detailContent))
+                    EspressoCountingIdlingResource.decrement()
                 }
 
                 is LoadSearchCharacterResult.Failure -> onFailure(result)

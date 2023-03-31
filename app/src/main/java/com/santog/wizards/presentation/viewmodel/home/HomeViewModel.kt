@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.santog.wizards.domain.WizardRepository
+import com.santog.wizards.domain.states.LoadCharacterError
 import com.santog.wizards.domain.states.LoadCharacterResult
+import com.santog.wizards.utils.EspressoCountingIdlingResource
 import com.santog.wizards.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -30,6 +32,7 @@ class HomeViewModel(
     private fun loadContent() {
         states.postValue(HomeScreenStates.Loading)
         viewModelScope.launch {
+            EspressoCountingIdlingResource.increment()
             val result = wizardRepository.loadCharacters()
             when (result) {
                 is LoadCharacterResult.Success -> {
@@ -57,23 +60,23 @@ class HomeViewModel(
                         }
                     val generalContent = GeneralContent(studentsList, staffList)
                     states.postValue(HomeScreenStates.Content(generalContent))
+                    EspressoCountingIdlingResource.decrement()
                 }
 
                 is LoadCharacterResult.Failure -> onFailure(result)
-                else -> { /* DO NOOP */
-                }
+                else -> { /* DO NOOP */ }
             }
         }
     }
 
     private fun onFailure(result: LoadCharacterResult.Failure) {
-        /*    when (result.error) {
-                LoadCharacterError.NoCharacterFound -> states.postValue(Error(ShowNoCharacterFound))
-                LoadCharacterError.NoInternet -> states.postValue(Error(ShowNoInternetMessage))
-                LoadCharacterError.ServerError -> states.postValue(Error(ShowServerError))
-                LoadCharacterError.DbError -> states.postValue(Error(ShowDbError))
-                LoadCharacterError.SlowInternet -> states.postValue(Error(ShowSlowInternet))
-            }*/
+            when (result.error) {
+                LoadCharacterError.NoCharacterFound -> states.postValue(HomeScreenStates.Error(ErrorStates.ShowNoCharacterFound))
+                LoadCharacterError.NoInternet -> states.postValue(HomeScreenStates.Error(ErrorStates.ShowNoInternetMessage))
+                LoadCharacterError.ServerError -> states.postValue(HomeScreenStates.Error(ErrorStates.ShowServerError))
+                LoadCharacterError.DbError -> states.postValue(HomeScreenStates.Error(ErrorStates.ShowDbError))
+                LoadCharacterError.SlowInternet -> states.postValue(HomeScreenStates.Error(ErrorStates.ShowSlowInternet))
+            }
     }
 }
 
@@ -89,7 +92,7 @@ sealed class HomeScreenEvents {
 }
 
 sealed class HomeScreenActions {
-    data class NavigateToDetail(val characterId: String /* TODO */) : HomeScreenActions()
+    data class NavigateToDetail(val characterId: String) : HomeScreenActions()
 }
 
 sealed class ErrorStates {

@@ -45,7 +45,7 @@ class StudentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvRecyclerView.adapter = studentsAdapter
+        binding.rvRecyclerViewStudents.adapter = studentsAdapter
         viewModel.send(HomeScreenEvents.OnReady)
         observeState()
         observeActions()
@@ -62,7 +62,7 @@ class StudentsFragment : Fragment() {
                         Timber.d("No students found")
                         Toast.makeText(context, "No students found", Toast.LENGTH_SHORT).show()
                     } else {
-                        binding.rvRecyclerView.visibility = View.VISIBLE
+                        binding.rvRecyclerViewStudents.visibility = View.VISIBLE
                         studentsAdapter.setCharactersList(results)
                     }
                 }
