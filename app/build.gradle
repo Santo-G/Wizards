@@ -57,7 +57,7 @@ dependencies {
 
     // Kotlin Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
     // OkHttp
     implementation('com.squareup.okhttp3:okhttp:4.10.0')
@@ -97,6 +97,9 @@ dependencies {
 
     // Koin for Android
     implementation 'io.insert-koin:koin-android:3.4.0'
+
+    // Testing
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
 
 }
 
