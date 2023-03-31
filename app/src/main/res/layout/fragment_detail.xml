@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/hp_background_image">
+    android:background="@drawable/hp_background_image"
+    android:id="@+id/sv_detail_item">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_detail_item"

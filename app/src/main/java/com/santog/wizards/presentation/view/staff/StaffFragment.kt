@@ -44,8 +44,7 @@ class StaffFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvRecyclerView.adapter = staffAdapter
-        // TODO send character id to fetch character data for detail screen
+        binding.rvRecyclerViewStaff.adapter = staffAdapter
         viewModel.send(HomeScreenEvents.OnReady)
         observeState()
     }
@@ -61,7 +60,7 @@ class StaffFragment : Fragment() {
                         Timber.d("No staff found")
                         Toast.makeText(context, "No staff found", Toast.LENGTH_SHORT).show()
                     } else {
-                        binding.rvRecyclerView.visibility = View.VISIBLE
+                        binding.rvRecyclerViewStaff.visibility = View.VISIBLE
                         staffAdapter.setCharactersList(results)
                     }
                 }

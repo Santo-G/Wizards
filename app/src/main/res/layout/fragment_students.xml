@@ -8,7 +8,7 @@
     android:id="@+id/cl_fragment_students">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recycler_view"
+        android:id="@+id/rv_recycler_view_students"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="12dp"
